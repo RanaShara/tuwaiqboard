@@ -1,0 +1,43 @@
+ {% extends 'base.html'  %}
+
+{% block content %}
+ 
+ <div class="main-content">
+            <!-- العودة للواجبات -->
+            <div style="margin-bottom: 2rem;">
+                <a href="{% url 'index' %}" style="color: var(--primary-color); text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 600;">
+                    <i class="fas fa-arrow-right"></i>
+                    الصفحة الرئيسية
+                </a>
+            </div>
+
+   <div class="assignment-card">
+    <h2>{{ assignment.title }}</h2>
+    <p>{{ assignment.description }}</p>
+    <p>البرنامج: {{ assignment.program }}</p>
+    <p>تاريخ التسليم: {{ assignment.due_date }}</p>
+    
+</div>
+
+<div class="section-header">
+    <h3>الحلول المقدمة</h3>
+</div>
+<div class="programs-grid">
+    {% for submission in submissions %}
+    <div class="assignment-card">
+        <p>الطالب: {{ submission.student_name }}</p>
+        <p>التعليق: {{ submission.comment }}</p>
+        <p>الدرجة: {{ submission.grade }}</p>
+        <a href="{{ submission.file.url }}" target="_blank">تحميل الملف</a>
+    </div>
+    {% empty %}
+    <p>لا يوجد حلول بعد</p>
+    {% endfor %}
+</div>
+
+<a href="{% url 'submit_assignment' assignment.id %}" class="btn btn-success mt-3">
+    تقديم واجب
+</a>
+
+ </div>
+         {% endblock %}

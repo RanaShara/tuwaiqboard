@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="main-content">
+    
+    <!-- Enhanced Header -->
+    <div class="section-header">
+        <div class="page-header">
+            <div class="header-content">
+                <h2 class="section-title">
+                    <i class="fas fa-plus-circle"></i>
+                    إضافة واجب جديد
+                </h2>
+                <p class="page-description">قم بإنشاء واجب جديد لطلاب البرنامج التدريبي</p>
+            </div>
+            <div class="header-actions">
+                <a href="{% url 'teacher_dashboard' %}" class="back-btn">
+                    <i class="fas fa-arrow-right"></i>
+                    العودة للوحة التحكم
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Assignment Form Card -->
+    <div class="form-container">
+        <div class="form-card">
+            <div class="form-header">
+                <div class="form-icon">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <h3 class="form-title">تفاصيل الواجب الجديد</h3>
+            </div>
+
+            <form method="post" class="assignment-form">
+                {% csrf_token %}
+
+                <!-- Assignment Title -->
+                <div class="form-group">
+                    <label for="id_title" class="form-label">
+                        <i class="fas fa-heading"></i>
+                        عنوان الواجب
+                        <span class="required">*</span>
+                    </label>
+                    <div class="input-container">
+                        {{ form.title }}
+                        <div class="input-icon">
+                            <i class="fas fa-edit"></i>
+                        </div>
+                    </div>
+                    {% if form.title.errors %}
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            {{ form.title.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Assignment Description -->
+                <div class="form-group">
+                    <label for="id_description" class="form-label">
+                        <i class="fas fa-align-left"></i>
+                        وصف الواجب
+                        <span class="required">*</span>
+                    </label>
+                    <div class="textarea-container">
+                        {{ form.description }}
+                        <div class="textarea-helper">
+                            <i class="fas fa-info-circle"></i>
+                            اكتب وصفاً تفصيلياً للواجب والمطلوب من الطلاب
+                        </div>
+                    </div>
+                    {% if form.description.errors %}
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            {{ form.description.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Program Selection -->
+                <div class="form-group">
+                    <label for="id_program" class="form-label">
+                        <i class="fas fa-graduation-cap"></i>
+                        البرنامج التدريبي
+                        <span class="required">*</span>
+                    </label>
+                    <div class="select-container">
+                        {{ form.program }}
+                        <div class="select-icon">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    {% if form.program.errors %}
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            {{ form.program.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Due Date and Status Row -->
+                <div class="form-row">
+                    <!-- Due Date -->
+                    <div class="form-group">
+                        <label for="id_due_date" class="form-label">
+                            <i class="fas fa-calendar-alt"></i>
+                            تاريخ التسليم
+                            <span class="required">*</span>
+                        </label>
+                        <div class="input-container">
+                            {{ form.due_date }}
+                            <div class="input-icon">
+                                <i class="fas fa-calendar"></i>
+                            </div>
+                        </div>
+                        {% if form.due_date.errors %}
+                            <div class="error-message">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                {{ form.due_date.errors.0 }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Status -->
+                    <div class="form-group">
+                        <label for="id_status" class="form-label">
+                            <i class="fas fa-toggle-on"></i>
+                            حالة الواجب
+                        </label>
+                        <div class="select-container">
+                            {{ form.status }}
+                            <div class="select-icon">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                        {% if form.status.errors %}
+                            <div class="error-message">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                {{ form.status.errors.0 }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-save"></i>
+                        حفظ الواجب
+                    </button>
+                    
+                    <a href="{% url 'teacher_dashboard' %}" class="cancel-btn">
+                        <i class="fas fa-times"></i>
+                        إلغاء
+                    </a>
+                </div>
+            </form>
+        </div>
+        {% endblock %}

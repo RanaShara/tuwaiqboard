@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="main-content">
+    
+    <!-- Header Section with Logout -->
+    <div class="section-header">
+        <div class="dashboard-header">
+            <div class="header-content">
+                <h2 class="section-title">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    لوحة المدرب
+                </h2>
+                <p class="welcome-text">مرحباً بك في لوحة التحكم الخاصة بك</p>
+            </div>
+            <div class="header-actions">
+                <a href="{% url 'logout' %}" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    تسجيل الخروج
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon programs-icon">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div class="stat-content">
+                <h3 class="stat-number">{{ programs.count }}</h3>
+                <p class="stat-label">البرامج التدريبية</p>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon sessions-icon">
+                <i class="fas fa-video"></i>
+            </div>
+            <div class="stat-content">
+                <h3 class="stat-number">{{ sessions.count }}</h3>
+                <p class="stat-label">الجلسات المباشرة</p>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon assignments-icon">
+                <i class="fas fa-tasks"></i>
+            </div>
+            <div class="stat-content">
+                <h3 class="stat-number">{{ assignments.count }}</h3>
+                <p class="stat-label">الواجبات</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Cards Grid -->
+    <div class="programs-grid">
+        
+        <!-- Training Programs Card -->
+        <div class="program-card programs-section">
+            <div class="card-header">
+                
+                <h3 class="program-title">البرامج التي أدربها</h3>
+            </div>
+            
+            <div class="card-content">
+                {% for program in programs %}
+                <div class="program-item">
+                    <div class="program-info-row">
+                        <div class="program-name">
+                           
+                            <span>{{ program.name }}</span>
+                        </div>
+                        <div class="program-schedule">
+                            <div class="schedule-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>{{ program.days }}</span>
+                            </div>
+                            <div class="schedule-item">
+                                <i class="fas fa-clock"></i>
+                                <span>{{ program.time }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                {% empty %}
+                <div class="empty-state">
+                    <i class="fas fa-inbox"></i>
+                    <p>لا يوجد برامج تدريبية حالياً</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Live Sessions Card -->
+        <div class="program-card sessions-section">
+            <div class="card-header">
+                
+                <h3 class="program-title">الجلسات المباشرة</h3>
+            </div>
+            
+            <div class="card-content">
+                {% for session in sessions %}
+                <div class="session-item">
+                    <div class="session-info">
+                        <div class="session-title">
+                           
+                            <span>{{ session.title }}</span>
+                        </div>
+                        <div class="session-schedule">
+                            <div class="schedule-item">
+                                <i class="fas fa-calendar-day"></i>
+                                <span>{{ session.day }}</span>
+                            </div>
+                            <div class="schedule-item">
+                                <i class="fas fa-clock"></i>
+                                <span>{{ session.time }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="session-status">
+                        
+                        {% if session.status == 'live' %}
+                        <a href="#" class="join-session-btn">
+                            <i class="fas fa-external-link-alt"></i>
+                            دخول الجلسة
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% empty %}
+                <div class="empty-state">
+                    <i class="fas fa-video-slash"></i>
+                    <p>لا يوجد جلسات مجدولة</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Assignments Card -->
+        <div class="program-card assignments-section">
+            <div class="card-header">
+                
+                <h3 class="program-title">إدارة الواجبات</h3>
+                <a href="{% url 'add_assignment' %}" class="add-assignment-btn">
+                    <i class="fas fa-plus"></i>
+                    إضافة واجب جديد
+                </a>
+            </div>
+            
+            <div class="card-content">
+                {% for assignment in assignments %}
+                <div class="assignment-item">
+                    <div class="assignment-header-item">
+                        <div class="assignment-title-row">
+                           
+                            <span class="assignment-name">{{ assignment.title }}</span>
+                        </div>
+                        <div class="assignment-actions">
+                            <span class="due-date-badge">
+                               
+                                {{ assignment.due_date }}
+                            </span>
+                           
+                        </div>
+                    </div>
+                    <div class="assignment-footer">
+                        <a href="{% url 'view_submissions' assignment.id %}" class="view-submissions-btn">
+                            <i class="fas fa-folder-open"></i>
+                            عرض حلول الطلاب
+                            <span class="submissions-count">({{ assignment.submissions.count }})</span>
+                        </a>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="empty-state">
+                    <i class="fas fa-clipboard-list"></i>
+                    <p>لم تقم بإنشاء أي واجبات بعد</p>
+                    <a href="{% url 'add_assignment' %}" class="create-first-btn">
+                        <i class="fas fa-plus-circle"></i>
+                        إنشاء أول واجب
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+</div>
+{% endblock %}

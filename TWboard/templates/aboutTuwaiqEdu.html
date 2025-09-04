@@ -1,0 +1,185 @@
+{% extends 'base.html'  %}
+
+{% block content %}
+ 
+  <div class="main-content">
+
+ <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        body {
+            background: #f8f9fa;
+            line-height: 1.7;
+            color: #333;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 3rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #7b34c2;
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+        }
+
+        .section {
+            margin-bottom: 2.5rem;
+        }
+
+        .section h2 {
+            color: #7b34c2;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .section p {
+            font-size: 1.1rem;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .features {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+
+        .features ul {
+            list-style: none;
+        }
+
+        .features li {
+            padding: 0.5rem 0;
+            font-size: 1.1rem;
+            color: #555;
+        }
+
+        .features li::before {
+            content: "• ";
+            color: #7b34c2;
+            font-weight: bold;
+            margin-left: 0.5rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .card h3 {
+            color: #7b34c2;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .highlight {
+            color: #7b34c2;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .container {
+                padding: 2rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+    </style>
+
+
+    <div class="container">
+        <h1>طويق Board</h1>
+        <p class="subtitle">منصتكم التعليمية الرقمية</p>
+
+        <div class="section">
+            <p>طويق Board منصة رقمية صُممت لدعم التعلم في أكاديمية طويق بطريقة سهلة ومرنة.</p>
+        </div>
+
+        <div class="section">
+            <h2>فكرة المشروع</h2>
+            <p>
+                انطلقت الفكرة من <span class="highlight">رنا السبيعي</span> خلال مشاركتها في معسكر تطوير وبناء مواقع متكاملة باستخدام Django 
+                ضمن برامج أكاديمية طويق، حيث طُرحت كمشروع نهائي يجسّد ما تم تعلمه في المعسكر.
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>ماذا نقدم؟</h2>
+            <div class="features">
+                <ul>
+                    <li>رفع وتسليم الواجبات والمشاريع بسهولة</li>
+                    <li>تقييم الأعمال بشكل منظم وفعّال</li>
+                    <li>بيئة تعليمية تشجّع الإبداع والتعاون</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <h3>رسالتنا</h3>
+                <p>توفير تجربة تعليمية رقمية حديثة تسهّل عملية التعلم وتعزّز التواصل بين الطلاب والمدربين.</p>
+            </div>
+            <div class="card">
+                <h3>رؤيتنا</h3>
+                <p>أن نصبح منصة رائدة تواكب أهداف رؤية المملكة 2030 في التعليم الرقمي، وتمكّن الشباب لبناء مستقبل مهني رقمي.</p>
+            </div>
+            <div class="card">
+                <h3>شكر وتقدير</h3>
+                <p>نقدّم شكرنا لأكاديمية طويق على دعمها وتمكينها للمبادرات التي تساهم في تطوير المجتمع والمعرفة.</p>
+            </div>
+        </div>
+    </div>
+
+  </div>
+
+
+
+{% endblock %}

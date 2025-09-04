@@ -1,0 +1,126 @@
+{% extends 'base.html'  %}
+
+{% block content %}
+
+<!-- CSS مخصص للترحيب -->
+<style>
+.welcome-banner {
+    background: linear-gradient(135deg, #7b34c2, #a855f7);
+    color: white;
+    text-align: center;
+    padding: 3rem 2rem;
+    border-radius: 20px;
+    margin-bottom: 3rem;
+    box-shadow: 0 8px 25px rgba(123, 52, 194, 0.2);
+    animation: fadeIn 2s ease-in-out;
+}
+
+.welcome-banner h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: 800;
+}
+
+.welcome-banner h1 span {
+    color: #ffd700;
+}
+
+.welcome-banner p {
+    font-size: 1.2rem;
+    font-weight: 400;
+    opacity: 0.9;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(-20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+</style>
+ 
+<div class="main-content">
+  <div class="welcome-banner">
+      <h1>أهلاً بك في <span>طويق بورد</span> </h1>
+      <p>منصتك التعليمية لمتابعة البرامج، الجلسات، والواجبات بكل سهولة</p>
+  </div>
+
+  <!-- البرامج -->
+  <div class="section-header">
+      <h2 class="section-title">البرامج</h2>
+  </div>
+  <div class="programs-grid">
+      {% for program in programs %}
+      <div class="program-card">
+          <span class="status-badge {% if program.status == 'active' %}status-active{% else %}status-upcoming{% endif %}">
+              {{ program.get_status_display }}
+          </span>
+          <div class="program-type">{{ program.type }}</div>
+          <h3 class="program-title">{{ program.name }}</h3>
+          <div class="program-info">
+              <div class="info-item"><i class="fas fa-user-tie"></i> <span>المدرب: {{ program.trainer }}</span></div>
+              <div class="info-item"><i class="fas fa-clock"></i> <span>التوقيت: {{ program.time }}</span></div>
+              <div class="info-item"><i class="fas fa-calendar-alt"></i> <span>الأيام: {{ program.days }}</span></div>
+          </div>
+          <div class="program-duration"><i class="fas fa-hourglass-half"></i> مدة البرنامج: {{ program.duration }}</div>
+      </div>
+      {% empty %}
+      <p>لا يوجد برامج حالياً</p>
+      {% endfor %}
+  </div>
+
+  <!-- الجلسات -->
+  <div class="section-header">
+      <h2 class="section-title">الجلسات</h2>
+  </div>
+  <div class="programs-grid">
+      {% for session in sessions %}
+      <div class="session-card">
+          <span class="status-badge {% if session.status == 'active' %}status-active{% else %}status-upcoming{% endif %}">
+              {{ session.get_status_display }}
+          </span>
+          <div class="program-type">جلسة</div>
+          <h3 class="program-title">{{ session.title }}</h3>
+          <div class="program-info">
+              <div class="info-item"><i class="fas fa-user-tie"></i> <span>المدرب: {{ session.trainer }}</span></div>
+              <div class="info-item"><i class="fas fa-clock"></i> <span>التوقيت: {{ session.time }}</span></div>
+              <div class="info-item"><i class="fas fa-calendar-alt"></i> <span>اليوم: {{ session.day }}</span></div>
+          </div>
+          <div class="program-duration"><i class="fas fa-video"></i> مدة الجلسة: {{ session.duration }}</div>
+      </div>
+      {% empty %}
+      <p>لا يوجد جلسات حالياً</p>
+      {% endfor %}
+  </div>
+
+  <!-- الواجبات -->
+  <div class="section-header">
+      <h2 class="section-title">الواجبات</h2>
+  </div>
+  <div class="programs-grid">
+      {% for assignment in assignments %}
+      <div class="assignment-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+              <h3 class="program-title" style="margin: 0;">{{ assignment.title }}</h3>
+              <span class="due-date {% if assignment.status == 'late' %}bg-danger text-white{% endif %}">
+                  {{ assignment.get_status_display }}: {{ assignment.due_date }}
+              </span>
+          </div>
+          <div class="program-info">
+              <div class="info-item"><i class="fas fa-book"></i> <span>{{ assignment.description }}</span></div>
+              <div class="info-item"><i class="fas fa-user"></i> <span>الأستاذ: {{ assignment.teacher }}</span></div>
+          </div>
+          <div class="info-item">
+              <a href="{% url 'assignment_detail' assignment.id %}" class="view-assignment-btn">
+                  <i class="fas fa-eye"></i> عرض تفاصيل الواجب
+              </a>
+          </div>
+      </div>
+      {% empty %}
+      <p>لا يوجد واجبات حالياً</p>
+      {% endfor %}
+  </div>
+</div>
+
+
+
+
+{% endblock %}

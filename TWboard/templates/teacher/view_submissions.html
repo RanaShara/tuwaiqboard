@@ -1,0 +1,28 @@
+ {% extends 'base.html'  %}
+ 
+{% block content %}
+ <div class="main-content">
+    
+ 
+  
+    <h2 class="section-title">الحلول للواجب: {{ assignment.title }}</h2>
+
+
+
+<div class="programs-grid">
+    {% for submission in submissions %}
+    <div class="assignment-card">
+        <p><b>الطالب:</b> {{ submission.student_name }}</p>
+        <p><b>التعليق:</b> {{ submission.comment }}</p>
+        <p><b>الملف:</b> <a href="{{ submission.file.url }}" target="_blank">تحميل</a></p>
+        <p><b>الدرجة:</b> {{ submission.grade|default:"لم يتم التقييم" }}</p>
+        <a href="{% url 'grade_submission' submission.id %}" class="view-assignment-btn">✏️ تقييم</a>
+    </div>
+    {% empty %}
+    <p>لا يوجد حلول بعد</p>
+    {% endfor %}
+</div>
+ </div>
+ 
+         {% endblock %}
+        

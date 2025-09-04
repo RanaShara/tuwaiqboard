@@ -1,0 +1,205 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="main-content">
+    
+    <!-- Navigation Back -->
+    <div class="back-navigation">
+        <a href="{% url 'index' %}" class="back-link">
+            <i class="fas fa-arrow-right"></i>
+            العودة للصفحة الرئيسية
+        </a>
+    </div>
+    
+    <!-- Page Header -->
+    <div class="section-header">
+        <div class="submit-header">
+            <div class="header-content">
+                <h2 class="section-title">
+                    <i class="fas fa-file-upload"></i>
+                    تقديم الواجب
+                </h2>
+                <p class="assignment-name">{{ assignment.title }}</p>
+            </div>
+            <div class="assignment-info">
+                <div class="info-badge due-date-info">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>موعد التسليم: {{ assignment.due_date }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Submission Form -->
+    <div class="submission-container">
+        <div class="submission-card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <i class="fas fa-paper-plane"></i>
+                </div>
+                <h3 class="card-title">تفاصيل التقديم</h3>
+            </div>
+
+            <form method="POST" enctype="multipart/form-data" class="submission-form">
+                {% csrf_token %}
+
+                <!-- Student Name Field -->
+                <div class="form-group">
+                    <label for="id_student_name" class="form-label">
+                        <i class="fas fa-user"></i>
+                        اسم الطالب
+                        <span class="required">*</span>
+                    </label>
+                    <div class="input-container">
+                        {{ form.student_name }}
+                        <div class="input-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                    </div>
+                    {% if form.student_name.errors %}
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            {{ form.student_name.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- File Upload Field -->
+                <div class="form-group">
+                    <label for="id_file" class="form-label">
+                        <i class="fas fa-file-upload"></i>
+                        ملف الواجب
+                        <span class="required">*</span>
+                    </label>
+                    <div class="file-upload-container">
+                        <div class="file-upload-area">
+                            <div class="file-upload-icon">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                            <div class="file-upload-text">
+                                <h4>اسحب الملف هنا أو اضغط للاختيار</h4>
+                                <p>يُقبل ملفات PDF, DOC, DOCX, JPG, PNG</p>
+                            </div>
+                            {{ form.file }}
+                        </div>
+                        <div class="file-info" id="fileInfo" style="display: none;">
+                            <i class="fas fa-file"></i>
+                            <span class="file-name"></span>
+                            <button type="button" class="remove-file" onclick="removeFile()">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    {% if form.file.errors %}
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            {{ form.file.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Comments Field -->
+                <div class="form-group">
+                    <label for="id_comment" class="form-label">
+                        <i class="fas fa-comment"></i>
+                        ملاحظات إضافية
+                        <span class="optional">(اختياري)</span>
+                    </label>
+                    <div class="textarea-container">
+                        {{ form.comment }}
+                        <div class="textarea-helper">
+                            <i class="fas fa-info-circle"></i>
+                            يمكنك إضافة أي ملاحظات أو توضيحات حول الواجب
+                        </div>
+                    </div>
+                    {% if form.comment.errors %}
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            {{ form.comment.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Submit Button -->
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        <i class="fas fa-paper-plane"></i>
+                        تقديم الواجب
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Help Card -->
+        <div class="help-card">
+            <div class="help-header">
+                
+                <h3 class="help-title">إرشادات التقديم</h3>
+            </div>
+            <div class="help-content">
+                <div class="help-item">
+                    <i class="fas fa-check"></i>
+                    <p>تأكد من كتابة اسمك الكامل بشكل صحيح</p>
+                </div>
+                <div class="help-item">
+                    <i class="fas fa-check"></i>
+                    <p>ارفع ملف الواجب بصيغة مناسبة</p>
+                </div>
+                <div class="help-item">
+                    <i class="fas fa-check"></i>
+                    <p>راجع الواجب قبل التقديم</p>
+                </div>
+                <div class="help-item">
+                    <i class="fas fa-check"></i>
+                    <p>تأكد من عدم تجاوز موعد التسليم</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // File upload handling
+        const fileInput = document.getElementById('id_file');
+        const fileInfo = document.getElementById('fileInfo');
+        const fileUploadArea = document.querySelector('.file-upload-area');
+
+        fileInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const fileName = this.files[0].name;
+                document.querySelector('.file-name').textContent = fileName;
+                fileInfo.style.display = 'flex';
+                fileUploadArea.classList.add('has-file');
+            }
+        });
+
+        function removeFile() {
+            fileInput.value = '';
+            fileInfo.style.display = 'none';
+            fileUploadArea.classList.remove('has-file');
+        }
+
+        // Drag and drop functionality
+        fileUploadArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.classList.add('drag-over');
+        });
+
+        fileUploadArea.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            this.classList.remove('drag-over');
+        });
+
+        fileUploadArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('drag-over');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                fileInput.files = files;
+                const event = new Event('change', { bubbles: true });
+                fileInput.dispatchEvent(event);
+            }
+        });
+    </script>
+</div>
+{% endblock %}
